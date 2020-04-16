@@ -1,0 +1,57 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>user-page</title>
+        <link rel="Stylesheet" href="style.css" />
+
+    </head>
+    <body class="insert">
+    
+    <h1> insert/update user information</h1>
+            
+    <table class="table" id="table">
+            <h3>Here is the playlist</h3>
+            <thead>
+            <tr>
+                <th>uid</th>
+                <th>mid</th>
+                <th>name</th>
+                <th>release_date</th>
+                <th>directors</th>
+                <th>category</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            {{#rows}}
+                <td>{{uid}}</td> 
+                <td>{{mid}}</td> 
+                <td>{{name}}</td>
+                <td>{{release_date}}</td> 
+                <td>{{name}}</td>
+                <td>{{category}}</td> 
+                <td>
+                    <form method="POST" action="insert/delete-watch/{{uid}}/{{mid}}"> 
+                        <button class="button" type="submit">delete</button>
+                    
+                    </form>
+                </td>
+            </tr>
+            {{/rows}}
+            </tbody>
+    </table>
+        
+   
+    <form method = "POST" action="/insert-watch">
+        <p> add new moviesto your watch list here</p>
+        <input placeholder="uid" name="uid" />
+        <input placeholder="mid" name="mid" />
+        <button class="button button2" type ="submit">save</button>
+    </form> 
+
+    
+    <script src="jquery.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+@import 'reset';
+$font-stack:    Helvetica, sans-serif;
+$primary-color: #333;
+
+body{
+    font-family: $font-stack;
+}
+h1{
+    font-size: 2em;
+    color: $primary-color;
+}
+ 
+table {
+    border: 1px solid #4CAF50;
+    border-collapse: separate;
+    border-spacing: 2px;
+    
+}
+
+td,th {    
+    padding:15px;
+    border: 1px solid #bbb;
+    text-align: center;
+}
+ 
+button {
+  background-color: red;  
+  
+}
+
+button2 {background-color: #4CAF50;}  
+@import 'insert';
+
+@import 'search';

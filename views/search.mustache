@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>search-page</title>
+    <link rel="Stylesheet" href="style.css" />
+
+</head>
+<body>
+    <h1> View the movies information </h1>
+    <div class="left-container">
+    <h4>Here are some filters</h4>
+        <form class="form" method="post" action="/search-byca"> 
+            <p>search by category</p>
+            <input placeholder="category" name="category" />
+            <button class="button button3" type="submit">search</button>        
+        </form>
+        <form class="form" method="post" action="/search-bydate"> 
+            <button class="button button1" type="submit">5 most recent movies</button>        
+        </form>
+        <form class="form" method="post" action="/search-byname"> 
+             <p>search by director's full name</p>
+             <input placeholder="name" name="name" />
+            <button class="button button3" type="submit">search</button>        
+        </form>
+        <br><br><br><br><br><br><br><br>
+        <form>
+        <i class='fas fa-arrow-left' style='font-size:20px'></i>
+        <button class="button button3" type="submit" action="/search">go back to original</button>        
+        </form>
+    </div>
+
+    <div class="right-container">
+        <h2>Moive list</h2>
+        <table class="search">
+            <thead>
+            <tr>
+                <th>mid</th>
+                <th>name</th>
+                <th>release_date</th>
+                <th>category</th>
+                <th>director</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            {{#rows}}
+                <td>{{mid}}</td> 
+                <td>{{name}}</td>
+                <td>{{release_date}}</td> 
+                 <td>{{category}}</td>   
+                <td>{{dn}}</td>
+               
+            </tr>
+            {{/rows}}
+            </tbody>
+    </table>
+    </div>
+    <script src="jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+</body>
+</html>
