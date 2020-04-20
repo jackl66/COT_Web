@@ -1,18 +1,18 @@
 const express = require('express')
-const app = express()
 const mustacheExpress = require('mustache-express')
-const mustache = mustacheExpress()
 const bodyParser = require('body-parser')
 const { Client } = require('pg')
 require('dotenv').config()
 
-var auth = require('./auth/auth.js')
- 
+var auth = require('./auth/auth')
+
+const app = express()
+const mustache = mustacheExpress()
 const client = new Client({
-    database: "dbdproject",       //your database
-    user: "postgres",           //your username
-    password: "postgres",       //your password
-    host: "localhost",          //your host name *name of your machine)
+    database: process.env.PGDATABASE,       //your database
+    user: process.env.PGUSER,               //your username
+    password: process.env.PGPASS,           //your password
+    host: "localhost",                      //your host name (name of your machine)
     port: 5432
 })
 
@@ -135,7 +135,7 @@ app.post('/insert-watch',(req,res)=>{
  })
 
 //delete items in the playlist 
- app.post('/insert/delete-watch/:uid/:mid',(req,res)=>{
+app.post('/insert/delete-watch/:uid/:mid',(req,res)=>{
     //console.log("12")
     console.log(req.params.uid,req.params.mid)
     client.query('delete from playlist where uid =$1 and mid= $2',
@@ -149,6 +149,17 @@ app.post('/insert-watch',(req,res)=>{
        res.redirect('/')
    })
 
+})
+
+/*
+ * Error Handler
+*/
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.json({
+        message: err.message,
+        error: req.app.get('env') === 'development' ? err : {}
+    })
 })
 
 /*

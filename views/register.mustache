@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="Stylesheet" href="style.css"/>
+</head>
+<body>
+    <h1>Sign Up</h1>
+
+
+
+    <!--
+        Method for sending registration information
+    -->
+    <form method="POST" action="auth/register">
+        <div><!-- Name text entry -->
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div><!-- Email text entry -->
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+        </div>
+        <div><!-- Password text entry -->
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password" required>
+        </div><!-- Submit button -->
+        <button type="submit">Register</button>
+    </form><!-- Option to go to login screen -->
+    <a href="login">Log In</a>
+
+</body>
+</html>

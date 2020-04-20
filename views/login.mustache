@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link rel="Stylesheet" href="style.css" />
+</head>
+<body>
+    <h1>Log In</h1>
+
+    <!--
+        Method for sending login information
+    -->
+    <form method="POST" action="auth/login">
+        <div><!-- Email text entry -->
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+        </div>
+        <div><!-- Password text entry -->
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password" required>
+        </div><!-- Submit button -->
+        <button type="submit">Log In</button>
+    </form><!-- Option to go to login screen -->
+    <a href="register">Register</a>
+
+</body>
+</html>
