@@ -1,32 +1,33 @@
-const express=require('express')
-const app = express(); 
-const mustacheExpress =require('mustache-express')
-const bodyParser = require('body-parser');
+const express = require('express')
+const app = express()
+const mustacheExpress = require('mustache-express')
+const mustache = mustacheExpress()
+const bodyParser = require('body-parser')
+const { Client } = require('pg')
 require('dotenv').config()
 
-const { Client } = require('pg')
+var auth = require('./auth/auth.js')
  
 const client = new Client({
-    database: "web",
-    user: "postgres",
-    password: "15372689740.Li",   //your password
-    host: "localhost",      //your host name *name of your machine)
+    database: "dbdproject",       //your database
+    user: "postgres",           //your username
+    password: "postgres",       //your password
+    host: "localhost",          //your host name *name of your machine)
     port: 5432
-
 })
 
-const mustache = mustacheExpress(); 
-mustache.cache=null;
+mustache.cache = null;
 app.engine('mustache',mustache)
 app.set('view engine','mustache')
+
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: false}));
+app.use('/auth',auth)
 
 connectToClient();
+
 app.listen(process.env.PORT,()=>{
-
-    console.log('listening on ',process.env.PORT)
-
+    console.log(`listening on ${process.env.PORT}`)
 })
 
 //get the current movie list 
@@ -41,6 +42,7 @@ app.get('/search',(req,res)=>{
     res.redirect('/')
     })
 })
+
 //search by category
 app.post('/search-byca',(req,res)=>{
     client.query('select mid,movies.name,to_char(release_date,\'dd-Mon-yyyy\') as release_date,category,directors.name as dn'+
@@ -55,6 +57,7 @@ app.post('/search-byca',(req,res)=>{
     res.redirect('/')
     })
 })
+
 //search by date
 app.post('/search-bydate',(req,res)=>{
     client.query('select mid,movies.name,to_char(release_date,\'dd-Mon-yyyy\') as release_date,category,directors.name as dn '+
@@ -68,6 +71,7 @@ app.post('/search-bydate',(req,res)=>{
     res.redirect('/')
     })
 })
+
 //search by director 
 app.post('/search-byname',(req,res)=>{
     client.query('select mid,movies.name,to_char(release_date,\'dd-Mon-yyyy\') as release_date,category,directors.name as dn'+
@@ -75,48 +79,48 @@ app.post('/search-byname',(req,res)=>{
     [req.body.name])
     .then((results)=>{  
         res.render('search',results);
-       
     })
     .catch((err)=>{
     console.log('err',err)
     res.redirect('/')
     })
 })
+
 //redirect to search page where has the original movie list 
 app.get('/search-byca',(req,res)=>{
      
     res.redirect('/search')
     
 })
+
 app.get('/search-bydate',(req,res)=>{
      
     res.redirect('/search')
     
 })
+
 app.get('/search-byname',(req,res)=>{
      
     res.redirect('/search')
     
 })
+
 //display the playlist with movie & diector information
 app.get('/insert',(req,res)=>{
-     
     client.query('select playlist.uid,playlist.mid,movies.name,to_char(release_date,\'dd-Mon-yyyy\') as release_date ,directors.name,category from' +
     ' movies,playlist,directors where playlist.mid=movies.mid and directors.did=movies.director')
     .then((results)=>{
         console.log('results?',results);
         res.render('insert',results);
     })
-    
-    
     .catch((err)=>{
     console.log('err',err)
     res.redirect('/')
     })
-});
+})
+
 //insert into the playlist
 app.post('/insert-watch',(req,res)=>{
-
     client.query('insert into playlist (uid,mid) values($1,$2)',
         [req.body.uid,req.body.mid])
     .then(()=>{
@@ -127,37 +131,36 @@ app.post('/insert-watch',(req,res)=>{
         console.log('err',err)
         res.redirect('/')
     })
-    
- });   
+
+ })
+
 //delete items in the playlist 
  app.post('/insert/delete-watch/:uid/:mid',(req,res)=>{
-    //console,log("12")
+    //console.log("12")
     console.log(req.params.uid,req.params.mid)
     client.query('delete from playlist where uid =$1 and mid= $2',
         [req.params.uid,req.params.mid])
     .then(()=>{
-         //  console.log('resulut?',result)
+           //console.log('result?',result)
            res.redirect('/insert')
     })
-   .catch((err)=>{
+    .catch((err)=>{
        console.log('err',err)
        res.redirect('/')
    })
-   
-});   
- //disconnectFromClient() 
+
+})
+
 /*
  * Function to connect to client
 */
 async function connectToClient() {
     try {   //attempt to connect to client
         await client.connect()
+        console.log("successfully connected to client..")
     }
     catch (e) { //catch and log errors
         console.error('could not connect..', e)
-    }
-    finally {   //log successful completion of try block
-        console.log("successfully connected to client..")
     }
 }
 
@@ -167,11 +170,9 @@ async function connectToClient() {
 async function disconnectFromClient() {
     try {
         await client.end()
+        console.log("successfully disconnected from client..")
     }
     catch (e) {
         console.error('could not disconnect..', e)
-    }
-    finally {
-        console.log("successfully disconnected from client..")
     }
 }
