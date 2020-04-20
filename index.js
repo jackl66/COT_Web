@@ -152,17 +152,6 @@ app.post('/insert/delete-watch/:uid/:mid',(req,res)=>{
 })
 
 /*
- * Error Handler
-*/
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.json({
-        message: err.message,
-        error: req.app.get('env') === 'development' ? err : {}
-    })
-})
-
-/*
  * Function to connect to client
 */
 async function connectToClient() {
