@@ -30,7 +30,7 @@ app.listen(process.env.PORT,()=>{
     console.log(`listening on ${process.env.PORT}`)
 })
 
-//get the current movie list 
+/* displays web page that shows current movie list */
 app.get('/search',(req,res)=>{
     client.query('select mid,movies.name,to_char(release_date,\'dd-Mon-yyyy\') as release_date,category,directors.name as dn' +
     ' from movies,directors where movies.director=directors.did order by mid')
@@ -43,7 +43,7 @@ app.get('/search',(req,res)=>{
     })
 })
 
-//search by category
+/* search movies by category */
 app.post('/search-byca',(req,res)=>{
     client.query('select mid,movies.name,to_char(release_date,\'dd-Mon-yyyy\') as release_date,category,directors.name as dn'+
     ' from movies,directors where category = $1 and movies.director=directors.did order by mid',
@@ -58,7 +58,7 @@ app.post('/search-byca',(req,res)=>{
     })
 })
 
-//search by date
+/* search movies by date */
 app.post('/search-bydate',(req,res)=>{
     client.query('select mid,movies.name,to_char(release_date,\'dd-Mon-yyyy\') as release_date,category,directors.name as dn '+
     'from movies ,directors where movies.director=directors.did order by release_date desc limit 5 ')
@@ -72,7 +72,7 @@ app.post('/search-bydate',(req,res)=>{
     })
 })
 
-//search by director 
+/* search movies by director */
 app.post('/search-byname',(req,res)=>{
     client.query('select mid,movies.name,to_char(release_date,\'dd-Mon-yyyy\') as release_date,category,directors.name as dn'+
     ' from movies,directors where directors.name = $1 and movies.director=directors.did order by mid',
@@ -86,7 +86,7 @@ app.post('/search-byname',(req,res)=>{
     })
 })
 
-//redirect to search page where has the original movie list 
+/* redirects page to display original movie list */
 app.get('/search-byca',(req,res)=>{
      
     res.redirect('/search')
@@ -105,7 +105,7 @@ app.get('/search-byname',(req,res)=>{
     
 })
 
-//display the playlist with movie & diector information
+/* displays the playlist with movie & director information */
 app.get('/insert',(req,res)=>{
     client.query('select playlist.uid,playlist.mid,movies.name,to_char(release_date,\'dd-Mon-yyyy\') as release_date ,directors.name,category from' +
     ' movies,playlist,directors where playlist.mid=movies.mid and directors.did=movies.director')
@@ -119,7 +119,7 @@ app.get('/insert',(req,res)=>{
     })
 })
 
-//insert into the playlist
+/* insert into the playlist */
 app.post('/insert-watch',(req,res)=>{
     client.query('insert into playlist (uid,mid) values($1,$2)',
         [req.body.uid,req.body.mid])
@@ -134,7 +134,7 @@ app.post('/insert-watch',(req,res)=>{
 
  })
 
-//delete items in the playlist 
+/* delete items in the playlist */
 app.post('/insert/delete-watch/:uid/:mid',(req,res)=>{
     //console.log("12")
     console.log(req.params.uid,req.params.mid)
@@ -181,11 +181,11 @@ async function disconnectFromClient() {
  * Login functionalities
  */
 
-app.get('/login', (req, res) => {
+app.get('/login', (req, res) => {   //what the user sees
     res.render('login');
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', (req, res) => {  //handles login attempts
 
 });
 
@@ -193,10 +193,10 @@ app.post('/login', (req, res) => {
  * Registration functionalities
  */
 
-app.get('/register', (req, res) => {
+app.get('/register', (req, res) => {    //what the user sees
     res.render('register');
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', (req, res) => {   //handles registration attempts
     
 });
