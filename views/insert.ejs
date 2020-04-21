@@ -1,0 +1,71 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>user-page</title>
+        <link rel="Stylesheet" href="style.css" />
+
+    </head>
+    <body class="insert">
+    
+    <h1> insert/update user information</h1>
+     
+    <table class="table" id="table">
+            <h3>Here is the playlist</h3>
+            <thead>
+            <tr>
+                <th>uid</th>
+                <th>mid</th>
+                <th>name</th>
+                <th>release_date</th>
+                <th>directors</th>
+                <th>category</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <%if (records.length >0){ %>
+                    <% records.forEach(function(row){ %>
+                        <% if(row.mid!=null){ %>
+                            <tr>
+                            <td><%= row.uid %></td>
+                            <td><%= row.mid %></td>
+                            <td><%= row.name %></td>
+                            <td><%= row.release_date %></td>
+                            <td><%= row.dn %></td>
+                            <td><%= row.category %></td>
+                            
+                            <form method="POST" action="/insert/delete-watch/:mid/:uid"> 
+                                 <td><a class="delete" method="get" href="/insert/delete-watch/<%= row.mid %> /<%= row.uid %>">Delete</a></td> 
+                                   
+                            </form>
+                            
+                            </tr>
+                        <% } %>        
+                    <% })}  if(records.length==1){ %>
+                       
+                    <tr>
+                        <td colspan="6">No Record Found</td>
+                    </tr>
+                <% } %>
+                
+                    
+            </tr>
+            
+            </tbody>
+    </table>
+   
+    <form method = "POST" action="/insert-watch">
+        <p> add new moviesto your watch list here</p>      
+        <input placeholder="mid" name="mid" />
+        <button class="button button2" type ="submit">save</button>
+
+    </form> 
+    <br><br>   
+        <a href="index.html">go back to home page</a>
+    
+    <script src="jquery.min.js"></script>
+    
+</body>
+</html>

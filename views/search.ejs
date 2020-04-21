@@ -32,9 +32,9 @@
         <a href="index.html">go back to home page</a>
         </form>
     </div>
-
+<h2>Moive list</h2>
     <div class="right-container">
-        <h2>Moive list</h2>
+        
         <table class="search">
             <thead>
             <tr>
@@ -47,15 +47,27 @@
             </thead>
             <tbody>
             <tr>
-            {{#rows}}
-                <td>{{mid}}</td> 
-                <td>{{name}}</td>
-                <td>{{release_date}}</td> 
-                 <td>{{category}}</td>   
-                <td>{{dn}}</td>
+                <%if (records.length >0){ %>
+                    <% records.forEach(function(row){ %>
+                        <% if(row.mid!=null){ %>
+                            <tr>
+                            <td><%= row.mid %></td>
+                            <td><%= row.name %></td>
+                            <td><%= row.release_date %></td>
+                            <td><%= row.category %></td>
+                            <td><%= row.dn %></td>
+                            
+                            </tr>
+                        <% } %>        
+                    <% })}  if(records.length==1){ %>
+                    <tr>
+                        <td colspan="5">No Record Found</td>
+                    </tr>
+                    <% } %>
+                
                
             </tr>
-            {{/rows}}
+             
             </tbody>
     </table>
     </div>
