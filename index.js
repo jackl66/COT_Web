@@ -176,3 +176,27 @@ async function disconnectFromClient() {
         console.error('could not disconnect..', e)
     }
 }
+
+/*
+ * Login functionalities
+ */
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.post('/login', (req, res) => {
+
+});
+
+/*
+ * Registration functionalities
+ */
+
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+
+app.post('/register', (req, res) => {
+    
+});
