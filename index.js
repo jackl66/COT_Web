@@ -183,6 +183,61 @@ app.post("/search-byname", (req, res) => {
       res.redirect("/");
     });
 });
+//display where the movies are shown
+app.get("/location", (req, res) => {
+  client
+    .query(
+      "select playat.mid,movies.name,theaters.tid,theaters.location, to_char(when_show,'dd-Mon-yyyy') as when" +
+        " from playat,movies,theaters where playat.mid=movies.mid and playat.tid=theaters.tid order by tid"
+    )
+    .then((results) => {
+      let records = results.rows;
+      records.push(results);
+      let uid = req.user.uid;
+
+      records.push(uid);
+
+      res.render("location", { records });
+    })
+    .catch((err) => {
+      console.log("err", err);
+      res.redirect("/");
+    });
+});
+//delete the list, only available to vender
+//to recognize a vender, we use uid
+//currently use vender@vender.com whose uid = 10
+app.get("/login/delete/:mid/:tid", (req, res) => {
+  client
+    .query("delete from playat where mid=$1 and tid= $2", [
+      req.params.mid,
+      req.params.tid,
+    ])
+    .then(() => {
+      res.redirect("/location");
+    })
+    .catch((err) => {
+      console.log("err", err);
+      res.redirect("/");
+    });
+});
+//only allow vender to update the list
+//insert new showtime
+app.post("/insert-location", (req, res) => {
+  client
+    .query("insert into playat (mid,tid,when_show) values ($1,$2,$3)", [
+      req.body.mid,
+      req.body.tid,
+      req.body.when,
+    ])
+    .then(() => {
+      res.redirect("/location");
+    })
+    .catch((err) => {
+      console.log("err", err);
+      res.redirect("/");
+    });
+});
 //redirect to search page where has the original movie list
 app.get("/search-byca", (req, res) => {
   res.redirect("/search");
@@ -193,6 +248,7 @@ app.get("/search-bydate", (req, res) => {
 app.get("/search-byname", (req, res) => {
   res.redirect("/search");
 });
+
 //display the playlist with movie & diector information
 //user must login first in order to see this page
 app.get("/insert", checkAuthenticated, (req, res) => {

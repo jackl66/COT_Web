@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>theater-page</title>
+    <link rel="Stylesheet" href="style.css" />
+
+</head>
+<body>
+    <h1> View the theater information </h1>
+    <%if (records.pop()==10){ %>
+        <form method = "POST" action="/insert-location">
+            <p> add new showtimes information here</p>      
+            <input placeholder="mid" name="mid" />
+            <input placeholder="tid" name="tid" />
+            <input placeholder="when" type="date" name="when" />
+            <button class="button button2" type ="submit">save</button>
+        </form> 
+     <% } %>    
+        <table class="search">
+            <thead>
+            <tr>
+                <th>mid</th>
+                <th>name</th>
+                <th>tid</th>
+                <th>location</th>
+                <th>when</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <%if (records.length >0){ %>
+                    <% records.forEach(function(row){ %>
+                        <% if(row.mid!=null){ %>
+                            <tr>
+                            <td><%= row.mid %></td>
+                            <td><%= row.name %></td>
+                            <td><%= row.tid %></td>
+                            <td><%= row.location%></td>
+                            <td><%= row.when %></td>
+                             </tr>
+                        <% } %>        
+                    <% })}  if(records.length==1){ %>
+                    <tr>
+                        <td colspan="4">No Record Found</td>
+                    </tr>
+                    <% } %>
+                
+               
+            </tr>
+             
+            </tbody>
+    </table> 
+    
+
+     
+    
+    
+    <form>    
+        <br><br>   
+        <a href="index.html">go back to home page</a>
+    </form>
+    <script src="jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    
+</body>
+</html>

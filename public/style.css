@@ -161,7 +161,8 @@ button {
   color: green;
 }
 .button2 {
-  background-color: #4caf50;
+  background-color: rgb(214, 23, 231);
+  color: white;
 }
 
 .button3 {
