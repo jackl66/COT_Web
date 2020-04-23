@@ -273,8 +273,9 @@ app.get("/insert", checkAuthenticated, (req, res) => {
 //insert into the playlist
 app.post("/insert-watch", (req, res) => {
   let uid = req.user.uid;
+  // calling store procedure instead of insert query
   client
-    .query("insert into playlist (uid,mid) values($1,$2)", [uid, req.body.mid])
+    .query("call insert_list($1,$2)", [req.body.mid, uid])
     .then(() => {
       //console.log('resulut?',result)
       res.redirect("/insert");
@@ -286,11 +287,9 @@ app.post("/insert-watch", (req, res) => {
 });
 //delete items in the playlist
 app.get("/insert/delete-watch/:mid/:uid", (req, res) => {
+  // calling store procedure instead of delete query
   client
-    .query("delete from playlist where uid=$1 and mid= $2", [
-      req.params.uid,
-      req.params.mid,
-    ])
+    .query("call delete_list($1,$2)", [req.params.uid, req.params.mid])
     .then(() => {
       res.redirect("/insert");
     })
